@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://www.w3.org/2001/XMLSchema" />
+      <s:element name="upload">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ds">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="uploadResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="download">
+        <s:complexType />
+      </s:element>
+      <s:element name="downloadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="downloadResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="uploadSoapIn">
+    <wsdl:part name="parameters" element="tns:upload" />
+  </wsdl:message>
+  <wsdl:message name="uploadSoapOut">
+    <wsdl:part name="parameters" element="tns:uploadResponse" />
+  </wsdl:message>
+  <wsdl:message name="downloadSoapIn">
+    <wsdl:part name="parameters" element="tns:download" />
+  </wsdl:message>
+  <wsdl:message name="downloadSoapOut">
+    <wsdl:part name="parameters" element="tns:downloadResponse" />
+  </wsdl:message>
+  <wsdl:portType name="dataSoap">
+    <wsdl:operation name="upload">
+      <wsdl:input message="tns:uploadSoapIn" />
+      <wsdl:output message="tns:uploadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="download">
+      <wsdl:input message="tns:downloadSoapIn" />
+      <wsdl:output message="tns:downloadSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="dataSoap" type="tns:dataSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <wsdl:operation name="upload">
+      <soap:operation soapAction="http://tempuri.org/upload" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="download">
+      <soap:operation soapAction="http://tempuri.org/download" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="data">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+    <wsdl:port name="dataSoap" binding="tns:dataSoap">
+      <soap:address location="http://localhost/pabkservice/pabk.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
